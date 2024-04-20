@@ -1,2 +1,2 @@
-# 2024-LewZealand
-This is the Repo for the 2024 season
+# 22024-Boomerang
+This is the Repo for the 2024 Rochester Ruckus robot
