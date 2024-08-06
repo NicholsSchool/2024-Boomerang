@@ -53,11 +53,11 @@ public class ModuleIOMaxSwerve implements ModuleIO {
     // ModuleIO blModuleIO,
     // ModuleIO brModuleIO
     int[] driveIds = {
-      0, 1, 2, 3 //TODO: DO NOT USE
+      0, 1, 2, 3 // TODO: DO NOT USE
     };
     int[] turnIds = {
-      0, 1, 2, 3 //DO NOT USE
-    }; 
+      0, 1, 2, 3 // DO NOT USE
+    };
     // Angular offsets of the modules relative to the chassis in radians
     double[] turnOffsets = {(-Math.PI / 2), 0, Math.PI, (Math.PI / 2)};
 

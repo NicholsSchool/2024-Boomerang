@@ -54,8 +54,6 @@ public final class Constants {
     public static final int kBackRightPivot = 51;
     public static final int kBackRightEncoder = 52;
 
-
-
     public static final int kPowerDistributionHub = 50;
   }
 

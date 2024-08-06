@@ -64,25 +64,25 @@ public class ModuleIOTalonFX implements ModuleIO {
 
   public ModuleIOTalonFX(int index) {
     switch (index) {
-      case 0: //front left
+      case 0: // front left
         driveTalon = new TalonFX(Constants.CAN.kFrontLeftDrive);
         turnTalon = new TalonFX(Constants.CAN.kFrontLeftPivot);
         cancoder = new CANcoder(Constants.CAN.kFrontLeftEncoder);
         absoluteEncoderOffset = new Rotation2d(0.0); // MUST BE CALIBRATED
         break;
-      case 1: //front right
+      case 1: // front right
         driveTalon = new TalonFX(Constants.CAN.kFrontRightDrive);
         turnTalon = new TalonFX(Constants.CAN.kFrontRightPivot);
         cancoder = new CANcoder(Constants.CAN.kFrontRightEncoder);
         absoluteEncoderOffset = new Rotation2d(0.0); // MUST BE CALIBRATED
         break;
-      case 2: //back left
+      case 2: // back left
         driveTalon = new TalonFX(Constants.CAN.kBackLeftDrive);
         turnTalon = new TalonFX(Constants.CAN.kBackLeftPivot);
         cancoder = new CANcoder(Constants.CAN.kBackLeftEncoder);
         absoluteEncoderOffset = new Rotation2d(0.0); // MUST BE CALIBRATED
         break;
-      case 3: //back right
+      case 3: // back right
         driveTalon = new TalonFX(Constants.CAN.kBackRightDrive);
         turnTalon = new TalonFX(Constants.CAN.kBackRightPivot);
         cancoder = new CANcoder(Constants.CAN.kBackRightEncoder);
