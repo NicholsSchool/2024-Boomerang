@@ -73,9 +73,9 @@ public final class Constants {
 
   // REV MAXSwerve Modules
   public static final class ModuleConstants {
-    public static final double kWheelDiameterMeters = 0.0762; // 3 inch wheels
+    public static final double kWheelDiameterMeters = 0.0762; // 3 inch wheels TODO:update
     public static final double kWheelRadiusMeters = kWheelDiameterMeters / 2.0;
-    public static final double kDrivingMotorFreeSpinRPM = 5676; // NEO 550s max RPM
+    public static final double kDrivingMotorFreeSpinRPM = 6000; // Kraken non-FOC max RPM
     public static final double odometryCoefficient = 1.0; // TODO: tune odometry and use this
 
     public static final double kDrivingP = 0.02; // TODO: tune these
@@ -85,17 +85,18 @@ public final class Constants {
     public static final double kDrivingStaticFF = 0.1;
     public static final double kDrivingVelocityFF = 0.13;
 
-    public static final double kTurningP = 1.78; // TODO: tune these
+    public static final double kTurningP = 6.0; // TODO: tune these
     public static final double kTurningI = 0.0;
-    public static final double kTurningD = 0.0;
+    public static final double kTurningD = 0.12;
     public static final double kTurningFF = 0.0;
 
     public static final IdleMode kDrivingMotorIdleMode = IdleMode.kBrake;
     public static final IdleMode kTurningMotorIdleMode = IdleMode.kBrake;
 
-    public static final int kDrivingMotorCurrentLimit = 24; // amps
-    public static final int kTurningMotorCurrentLimit = 24; // amps
+    public static final int kDrivingMotorCurrentLimit = 30; // amps
+    public static final int kTurningMotorCurrentLimit = 30; // amps
 
+    // SDS MK4i L2 Modules
     public static final double kDRIVE_GEAR_RATIO = (50.0 / 14.0) * (17.0 / 27.0) * (45.0 / 15.0);
     public static final double kTURN_GEAR_RATIO = 150.0 / 7.0;
   }
