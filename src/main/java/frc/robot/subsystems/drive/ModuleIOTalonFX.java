@@ -55,6 +55,11 @@ public class ModuleIOTalonFX implements ModuleIO {
   private final StatusSignal<Double> turnAppliedVolts;
   private final StatusSignal<Double> turnCurrent;
 
+  // TODO:
+  // private final VoltageOut = new VoltageOut(0).withUpdateFreq(0);
+  // enables FOC for the motor
+  // TODO: pheonix 6 license required
+
   // Gear ratios for SDS MK4i L2, adjust as necessary
   private final double DRIVE_GEAR_RATIO = Constants.ModuleConstants.kDRIVE_GEAR_RATIO;
   private final double TURN_GEAR_RATIO = Constants.ModuleConstants.kTURN_GEAR_RATIO;
@@ -167,8 +172,8 @@ public class ModuleIOTalonFX implements ModuleIO {
   public void setDriveVoltage(double volts) {
     driveTalon.setControl(new VoltageOut(volts));
   }
-7 77[ [-===  =                                                                                                                                                                                                                    -]]
-  @Override                                                                                                                                              7
+
+  @Override
   public void setTurnVoltage(double volts) {
     turnTalon.setControl(new VoltageOut(volts));
   }
