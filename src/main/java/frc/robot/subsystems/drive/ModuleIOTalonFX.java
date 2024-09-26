@@ -68,25 +68,25 @@ public class ModuleIOTalonFX implements ModuleIO {
         driveTalon = new TalonFX(Constants.CAN.kFrontLeftDrive);
         turnTalon = new TalonFX(Constants.CAN.kFrontLeftPivot);
         cancoder = new CANcoder(Constants.CAN.kFrontLeftEncoder);
-        absoluteEncoderOffset = new Rotation2d(0.0); // MUST BE CALIBRATED
+        absoluteEncoderOffset = new Rotation2d(Math.toRadians(117.0)); // MUST BE CALIBRATED
         break;
       case 1: // front right
         driveTalon = new TalonFX(Constants.CAN.kFrontRightDrive);
         turnTalon = new TalonFX(Constants.CAN.kFrontRightPivot);
         cancoder = new CANcoder(Constants.CAN.kFrontRightEncoder);
-        absoluteEncoderOffset = new Rotation2d(0.0); // MUST BE CALIBRATED
+        absoluteEncoderOffset = new Rotation2d(Math.toRadians(123.0)); // MUST BE CALIBRATED
         break;
       case 2: // back left
         driveTalon = new TalonFX(Constants.CAN.kBackLeftDrive);
         turnTalon = new TalonFX(Constants.CAN.kBackLeftPivot);
         cancoder = new CANcoder(Constants.CAN.kBackLeftEncoder);
-        absoluteEncoderOffset = new Rotation2d(0.0); // MUST BE CALIBRATED
+        absoluteEncoderOffset = new Rotation2d(Math.toRadians(-147.0)); // MUST BE CALIBRATED
         break;
       case 3: // back right
         driveTalon = new TalonFX(Constants.CAN.kBackRightDrive);
         turnTalon = new TalonFX(Constants.CAN.kBackRightPivot);
         cancoder = new CANcoder(Constants.CAN.kBackRightEncoder);
-        absoluteEncoderOffset = new Rotation2d(0.0); // MUST BE CALIBRATED
+        absoluteEncoderOffset = new Rotation2d(Math.toRadians(-92.0)); // MUST BE CALIBRATED
         break;
       default:
         throw new RuntimeException("Invalid module index");
@@ -167,8 +167,8 @@ public class ModuleIOTalonFX implements ModuleIO {
   public void setDriveVoltage(double volts) {
     driveTalon.setControl(new VoltageOut(volts));
   }
-
-  @Override
+7 77[ [-===  =                                                                                                                                                                                                                    -]]
+  @Override                                                                                                                                              7
   public void setTurnVoltage(double volts) {
     turnTalon.setControl(new VoltageOut(volts));
   }
