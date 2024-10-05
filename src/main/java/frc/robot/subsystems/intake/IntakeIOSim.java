@@ -8,10 +8,12 @@ import frc.robot.Constants;
 import java.util.Random;
 
 public class IntakeIOSim implements IntakeIO {
-  private FlywheelSim firstSim = new FlywheelSim(
-    DCMotor.getFalcon500(1), 1 / Constants.IntakeConstants.secondStageGearRatio, 0.004);
-  private FlywheelSim secondSim = new FlywheelSim(
-    DCMotor.getFalcon500(1), 1 / Constants.IntakeConstants.firstStageGearRatio, 0.004);
+  private FlywheelSim firstSim =
+      new FlywheelSim(
+          DCMotor.getFalcon500(1), 1 / Constants.IntakeConstants.secondStageGearRatio, 0.004);
+  private FlywheelSim secondSim =
+      new FlywheelSim(
+          DCMotor.getFalcon500(1), 1 / Constants.IntakeConstants.firstStageGearRatio, 0.004);
 
   private double appliedVolts = 0.0;
   private LinearFilter velocityFilter;

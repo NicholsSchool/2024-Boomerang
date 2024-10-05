@@ -29,6 +29,8 @@ import frc.robot.subsystems.drive.GyroIONAVX;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intake.IntakeIOSim;
 import frc.robot.util.AllianceFlipUtil;
 import frc.robot.util.LoggedTunableNumber;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -42,6 +44,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
+  private final Intake intake;
   private PowerDistribution pdh;
 
   // shuffleboard
@@ -88,6 +91,7 @@ public class RobotContainer {
                 new ModuleIOTalonFX(1),
                 new ModuleIOTalonFX(2),
                 new ModuleIOTalonFX(3));
+        intake = new Intake(new IntakeIOSim());
         break;
 
       case ROBOT_SIM:
@@ -99,6 +103,7 @@ public class RobotContainer {
                 new ModuleIOSim(),
                 new ModuleIOSim(),
                 new ModuleIOSim());
+        intake = new Intake(new IntakeIOSim());
         break;
 
       case ROBOT_FOOTBALL:
@@ -109,6 +114,7 @@ public class RobotContainer {
                 new ModuleIOSim(),
                 new ModuleIOSim(),
                 new ModuleIOSim());
+        intake = new Intake(new IntakeIOSim());
         break;
 
       default:
@@ -123,6 +129,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 new ModuleIO() {});
+        intake = new Intake(new IntakeIOSim());
         break;
     }
 
@@ -276,6 +283,10 @@ public class RobotContainer {
                 () -> -90,
                 () -> drive.getYaw(),
                 () -> Constants.driveRobotRelative));
+
+    intake.setDefaultCommand(new InstantCommand(() -> intake.stop()));
+    driveController.leftTrigger(0.9).whileTrue(intake.runEatCommand());
+    driveController.rightTrigger(0.9).whileTrue(intake.runPoopCommand());
   }
 
   /**

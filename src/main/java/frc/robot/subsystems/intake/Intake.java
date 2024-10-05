@@ -111,7 +111,6 @@ public class Intake extends SubsystemBase {
     }
   }
 
-
   public boolean hasNote() {
     return inputs.hasNote;
   }
@@ -150,7 +149,6 @@ public class Intake extends SubsystemBase {
     return ffModel.calculate(setpointRadPerSec);
   }
 
-
   @AutoLogOutput
   public IntakeMode getState() {
     return mode;
@@ -170,7 +168,6 @@ public class Intake extends SubsystemBase {
   public double getSecondVelocityRPMs() {
     return Units.radiansPerSecondToRotationsPerMinute(inputs.secondIntakeAppliedVolts);
   }
-
 
   public Command runEatCommand() {
     // run eat mode until a note is obtained

@@ -32,15 +32,19 @@ public class IntakeIOReal implements IntakeIO {
 
   @Override
   public void updateInputs(IntakeIOInputs inputs) {
-    inputs.firstIntakeVelocityRadPerSec = firstIntake.getVelocity().getValueAsDouble() * 
-        Constants.IntakeConstants.firstStageGearRatio;
-    inputs.secondIntakeVelocityRadPerSec = secondIntake.getVelocity().getValueAsDouble() * 
-        Constants.IntakeConstants.secondStageGearRatio;
+    inputs.firstIntakeVelocityRadPerSec =
+        firstIntake.getVelocity().getValueAsDouble()
+            * Constants.IntakeConstants.firstStageGearRatio;
+    inputs.secondIntakeVelocityRadPerSec =
+        secondIntake.getVelocity().getValueAsDouble()
+            * Constants.IntakeConstants.secondStageGearRatio;
 
     inputs.firstIntakeAppliedVolts =
-        firstIntake.getMotorVoltage().getValueAsDouble() * firstIntake.getSupplyVoltage().getValueAsDouble();
+        firstIntake.getMotorVoltage().getValueAsDouble()
+            * firstIntake.getSupplyVoltage().getValueAsDouble();
     inputs.secondIntakeAppliedVolts =
-        secondIntake.getMotorVoltage().getValueAsDouble() * secondIntake.getSupplyVoltage().getValueAsDouble();
+        secondIntake.getMotorVoltage().getValueAsDouble()
+            * secondIntake.getSupplyVoltage().getValueAsDouble();
 
     inputs.firstIntakeCurrAmps = firstIntake.getSupplyCurrent().getValueAsDouble();
     inputs.secondIntakeAppliedVolts = secondIntake.getSupplyCurrent().getValueAsDouble();
