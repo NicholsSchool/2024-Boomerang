@@ -55,6 +55,9 @@ public final class Constants {
     public static final int kBackRightEncoder = 52;
 
     public static final int kPowerDistributionHub = 50;
+
+    public static final int kFirstIntakeCanId = 28;
+    public static final int kSecondIntakeCanId = 29;
   }
 
   public static final class RobotConstants {
@@ -68,7 +71,7 @@ public final class Constants {
     public static final double kTRACK_WIDTH_X = 0.5969; // 23.5in
     public static final double kTRACK_WIDTH_Y = 0.5969;
 
-    public static final double lowGearScaler = 0.6;
+    public static final double lowGearScaler = 0.4;
   }
 
   // REV MAXSwerve Modules
@@ -99,6 +102,18 @@ public final class Constants {
     // SDS MK4i L2 Modules
     public static final double kDRIVE_GEAR_RATIO = (50.0 / 14.0) * (17.0 / 27.0) * (45.0 / 15.0);
     public static final double kTURN_GEAR_RATIO = 150.0 / 7.0;
+  }
+
+  public static final class IntakeConstants {
+    public static final double firstStageGearRatio = 0.0;
+    public static final double secondStageGearRatio = 0.0;
+
+    public static int kBeamBreakChannel;
+    public static double kVomitRPM;
+    public static double kEatRPM;
+    public static double kPoopRPM;
+    public static double kDigestRPM;
+    public static double kVomitDelay;
   }
 
   public static final class AutoConstants {
