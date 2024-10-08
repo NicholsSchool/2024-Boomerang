@@ -1,6 +1,8 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -30,6 +32,7 @@ import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOSim;
 import frc.robot.util.AllianceFlipUtil;
 import frc.robot.util.LoggedTunableNumber;
@@ -91,7 +94,7 @@ public class RobotContainer {
                 new ModuleIOTalonFX(1),
                 new ModuleIOTalonFX(2),
                 new ModuleIOTalonFX(3));
-        intake = new Intake(new IntakeIOSim());
+        intake = new Intake(new IntakeIO() {});
         break;
 
       case ROBOT_SIM:
@@ -284,19 +287,23 @@ public class RobotContainer {
                 () -> drive.getYaw(),
                 () -> Constants.driveRobotRelative));
 
-    intake.setDefaultCommand(new InstantCommand(() -> intake.stop()));
-    driveController.leftTrigger(0.9).whileTrue(intake.runEatCommand());
-    driveController.rightTrigger(0.9).whileTrue(intake.runPoopCommand());
+    // intake.setDefaultCommand(new InstantCommand(() -> intake.stop()));
+    // driveController.leftTrigger(0.9).whileTrue(intake.runEatCommand());
+    // driveController.rightTrigger(0.9).whileTrue(intake.runPoopCommand());
   }
 
   /**
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return autoChooser.get();
+    return AutoBuilder.followPath(PathPlannerPath.fromPathFile("TestPath"));
+    // return autoChooser.get();
   }
 
   private void addTestingAutos() {
+    // Pathplanner Auto Testing
+    autoChooser.addOption("PathPlanner Testing Auto", new PathPlannerAuto("TestAuto"));
+
     // Set up feedforward characterization
     autoChooser.addOption(
         "Drive FF Characterization",

@@ -1,6 +1,5 @@
 package frc.robot.subsystems.intake;
 
-import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
@@ -16,7 +15,6 @@ public class IntakeIOSim implements IntakeIO {
           DCMotor.getFalcon500(1), 1 / Constants.IntakeConstants.firstStageGearRatio, 0.004);
 
   private double appliedVolts = 0.0;
-  private LinearFilter velocityFilter;
   private boolean isIntaking = false;
   private double minVelocityRadPerSec = 10.0;
   private Timer timer = new Timer();
@@ -28,7 +26,7 @@ public class IntakeIOSim implements IntakeIO {
     System.out.println("[Init] Creating IntakeIOSim");
     // Create filter of velocity to determine which direction motor is going.
     // this is used to simulate a note retrieval
-    velocityFilter = LinearFilter.singlePoleIIR(0.1, Constants.loopPeriodSecs);
+    // velocityFilter = LinearFilter.singlePoleIIR(0.1, Constants.loopPeriodSecs);
   }
 
   @Override
@@ -57,7 +55,7 @@ public class IntakeIOSim implements IntakeIO {
 
   // simulate eating and vomiting a note
   private void simulateNote() {
-    double filteredVelocity = velocityFilter.calculate(firstSim.getAngularVelocityRadPerSec());
+    double filteredVelocity = 0.0;
     if (Math.abs(filteredVelocity) > minVelocityRadPerSec) {
       // assumes intaking is positive velocity)
       boolean intaking = (Math.signum(filteredVelocity) > 0);

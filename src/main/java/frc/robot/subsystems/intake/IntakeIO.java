@@ -14,11 +14,14 @@ public interface IntakeIO {
     public double secondIntakeCurrAmps = 0.0;
   }
   /** Updates the set of loggable inputs. */
-  public void updateInputs(IntakeIOInputs inputs);
+  public default void updateInputs(IntakeIOInputs inputs) {}
+  ;
 
   /** Set the motor voltage */
-  public void setVoltage(double volts);
+  public default void setVoltage(double volts) {}
+  ;
 
   /** Enable or disable brake mode on the motors. */
-  public void setBrakeMode(boolean brake);
+  public default void setBrakeMode(boolean brake) {}
+  ;
 }

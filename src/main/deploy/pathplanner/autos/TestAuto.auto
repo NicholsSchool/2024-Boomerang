@@ -5,7 +5,7 @@
       "x": 2.0,
       "y": 7.0
     },
-    "rotation": 180.0
+    "rotation": 1.4119747622148866
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "ForwardRight"
+            "pathName": "TestPath"
           }
         }
       ]
