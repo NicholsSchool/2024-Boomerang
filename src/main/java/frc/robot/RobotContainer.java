@@ -1,8 +1,8 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -154,7 +154,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     // set starting position of robot
-    setStartingPose();
+    // setStartingPose();
   }
 
   private void initShuffleboard() {
@@ -177,7 +177,7 @@ public class RobotContainer {
       }
     }
 
-    resetPosWithDashboard();
+    // resetPosWithDashboard();
   }
 
   // changes robot pose with dashboard tunables
@@ -233,11 +233,11 @@ public class RobotContainer {
             drive,
             () -> -driveController.getLeftY() * Constants.DriveConstants.lowGearScaler,
             () -> -driveController.getLeftX() * Constants.DriveConstants.lowGearScaler,
-            () -> -driveController.getRightX() * 0.7,
+            () -> -driveController.getRightX() * 0.55,
             () -> Constants.driveRobotRelative));
     driveController.start().onTrue(new InstantCommand(() -> drive.resetFieldHeading()));
     driveController
-        .leftTrigger(0.9)
+        .leftTrigger(0.8)
         .whileTrue(
             DriveCommands.joystickDrive(
                 drive,
@@ -296,7 +296,14 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return AutoBuilder.followPath(PathPlannerPath.fromPathFile("TestPath"));
+    // var path = PathPlannerAuto.getStaringPoseFromAutoFile("TestAuto");
+    // var path = PathPlannerPath.fromChoreoTrajectory("New Path");
+    // TODO: set starting pos based on SIDE (RED/BLUE)
+    NamedCommands.registerCommand("RunIntake", intake.runEatCommand());
+    NamedCommands.registerCommand("StopIntake", new InstantCommand(() -> intake.stop(), intake));
+    drive.setPose(PathPlannerAuto.getStaringPoseFromAutoFile("TestAuto"));
+    return new PathPlannerAuto("TestAuto");
+    // return AutoBuilder.followPath(PathPlannerPath.fromPathFile("TestPath"));
     // return autoChooser.get();
   }
 
