@@ -1,6 +1,9 @@
 package frc.robot;
 
 import com.revrobotics.CANSparkBase.IdleMode;
+
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
 
 /**
@@ -124,5 +127,13 @@ public final class Constants {
     public static final String ALL_STAR = "all-star.chrp"; // TODO: add fnaf
     public static final String IMPERIAL_MARCH = "Imperial-March.chrp";
     public static final String WII_SONG = "Wii-Song.chrp";
+  }
+  
+  public static final class VisionConstants {
+    // both of these are the translation of the two cameras from the center of the bot
+    // need to check which camera is - and which is +
+    public static Translation2d cameraOnePosition = new Translation2d(-0.3, -0.3);
+    public static Translation2d cameraTwoPosition = new Translation2d(-0.3, 0.3);
+    public static double cameraOneAngle = Units.degreesToRadians(45);
   }
 }
