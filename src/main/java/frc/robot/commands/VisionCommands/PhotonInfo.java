@@ -57,11 +57,11 @@ public class PhotonInfo extends Command {
             FieldConstants.aprilTags.getTagPose(tagID).get().getY(),
             new Rotation2d(FieldConstants.aprilTags.getTagPose(tagID).get().getRotation().getZ()));
     return new Translation2d(
-        -Math.cos(tagPose.getRotation().getRadians()) * xy.getX()
-            - Math.sin(tagPose.getRotation().getRadians()) * xy.getY()
+        Math.cos(tagPose.getRotation().getRadians()) * xy.getX()
+            + Math.sin(tagPose.getRotation().getRadians()) * xy.getY()
             + tagPose.getX(),
-        -Math.cos(tagPose.getRotation().getRadians()) * xy.getY()
-            - Math.sin(tagPose.getRotation().getRadians()) * xy.getX()
+        Math.cos(tagPose.getRotation().getRadians()) * xy.getY()
+            + Math.sin(tagPose.getRotation().getRadians()) * xy.getX()
             + tagPose.getY());
   }
 
