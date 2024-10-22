@@ -60,7 +60,7 @@ public final class Constants {
 
     public static final int kIntakeCanId = 29;
 
-    public static final int kBeamBreakChannel = 7;
+    public static final int kBeamBreakChannel = 8;
   }
 
   public static final class RobotConstants {
