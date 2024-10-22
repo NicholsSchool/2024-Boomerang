@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants;
 import frc.robot.subsystems.drive.Drive;
+import frc.robot.util.AllianceFlipUtil;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
@@ -140,8 +141,7 @@ public class DriveCommands {
       Drive drive,
       DoubleSupplier xSupplier,
       DoubleSupplier ySupplier,
-      // TODO change to pose supplier??
-      Pose2d facingPose,
+      Translation2d facingPose,
       DoubleSupplier robotYawSupplier) {
     return Commands.run(
         () -> {
@@ -157,7 +157,9 @@ public class DriveCommands {
           Pose2d robotPose = drive.getPose();
           double desiredAngle =
               Math.atan2(
-                  facingPose.getY() - robotPose.getY(), facingPose.getX() - robotPose.getX());
+                      facingPose.getY() - robotPose.getY(),
+                      AllianceFlipUtil.apply(facingPose.getX()) - robotPose.getX())
+                  + Math.PI;
 
           // Square values
           linearMagnitude = linearMagnitude * linearMagnitude;
@@ -167,7 +169,12 @@ public class DriveCommands {
               new Pose2d(new Translation2d(), linearDirection)
                   .transformBy(new Transform2d(linearMagnitude, 0.0, new Rotation2d()))
                   .getTranslation();
-          double angularRotation = angleToVelocity(desiredAngle, robotYawSupplier.getAsDouble());
+          if (DriverStation.getAlliance().isPresent()
+              && DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
+            linearVelocity = linearVelocity.rotateBy(Rotation2d.fromRadians(Math.PI));
+          }
+          double angularRotation =
+              angleToVelocity(desiredAngle * 180 / Math.PI, robotYawSupplier.getAsDouble());
           // Convert to field relative speeds & send command
           drive.runVelocity(
               ChassisSpeeds.fromFieldRelativeSpeeds(

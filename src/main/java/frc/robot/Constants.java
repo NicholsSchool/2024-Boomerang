@@ -1,7 +1,6 @@
 package frc.robot;
 
 import com.revrobotics.CANSparkBase.IdleMode;
-
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -60,6 +59,8 @@ public final class Constants {
     public static final int kPowerDistributionHub = 50;
 
     public static final int kIntakeCanId = 29;
+
+    public static final int kBeamBreakChannel = 7;
   }
 
   public static final class RobotConstants {
@@ -128,7 +129,7 @@ public final class Constants {
     public static final String IMPERIAL_MARCH = "Imperial-March.chrp";
     public static final String WII_SONG = "Wii-Song.chrp";
   }
-  
+
   public static final class VisionConstants {
     // both of these are the translation of the two cameras from the center of the bot
     // need to check which camera is - and which is +

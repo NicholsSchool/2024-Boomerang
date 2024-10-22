@@ -2,11 +2,13 @@ package frc.robot.subsystems.intake;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants.CAN;
 
 public class IntakeIOReal implements IntakeIO {
   // private DigitalInput breamBreak;
   private TalonFX motor;
+  private DigitalInput beamBreak;
 
   public IntakeIOReal() {
     System.out.println("[Init] Creating IntakeIOReal");
@@ -16,6 +18,8 @@ public class IntakeIOReal implements IntakeIO {
     motor.clearStickyFaults();
     motor.setInverted(true);
     motor.setNeutralMode(NeutralModeValue.Coast);
+
+    beamBreak = new DigitalInput(CAN.kBeamBreakChannel);
   }
 
   @Override
@@ -24,7 +28,7 @@ public class IntakeIOReal implements IntakeIO {
     inputs.appliedVolts =
         motor.getMotorVoltage().getValueAsDouble() * motor.getSupplyVoltage().getValueAsDouble();
     inputs.currentAmps = motor.getStatorCurrent().getValueAsDouble();
-    inputs.hasNote = false;
+    inputs.hasNote = beamBreak.get();
   }
 
   @Override

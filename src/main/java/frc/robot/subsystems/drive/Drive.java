@@ -18,6 +18,7 @@ import com.pathplanner.lib.pathfinding.Pathfinding;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import com.pathplanner.lib.util.ReplanningConfig;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -28,8 +29,10 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.commands.VisionCommands.PhotonInfo;
 import frc.robot.util.LocalADStarAK;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
@@ -60,6 +63,10 @@ public class Drive extends SubsystemBase {
         new SwerveModulePosition(), new SwerveModulePosition(),
         new SwerveModulePosition(), new SwerveModulePosition()
       };
+
+  PhotonInfo pi = new PhotonInfo();
+  SwerveDrivePoseEstimator kalman =
+      new SwerveDrivePoseEstimator(kinematics, lastGyroRotation, positions, pose);
 
   private final LoggedDashboardNumber moduleTestIndex = // drive module to test with voltage ramp
       new LoggedDashboardNumber("Module Test Index (0-3)", 0);
@@ -135,6 +142,14 @@ public class Drive extends SubsystemBase {
       Logger.recordOutput("SwerveStates/SetpointsOptimized", optimizedSetpointStates);
     }
 
+    SwerveModulePosition[] wheelAbsolutes = new SwerveModulePosition[4];
+    for (int i = 0; i < kNumModules; i++) {
+      wheelAbsolutes[i] = modules[i].getPosition();
+    }
+
+    pose = kalman.getEstimatedPosition();
+    updateVision(wheelAbsolutes);
+
     // Log measured states
     SwerveModuleState[] measuredStates = new SwerveModuleState[4];
     for (int i = 0; i < kNumModules; i++) {
@@ -162,11 +177,6 @@ public class Drive extends SubsystemBase {
     } else {
       // no gyro in simulation, faking using odometry twist
       lastGyroRotation = new Rotation2d(twist.dtheta + lastGyroRotation.getRadians());
-    }
-
-    SwerveModulePosition[] wheelAbsolutes = new SwerveModulePosition[4];
-    for (int i = 0; i < kNumModules; i++) {
-      wheelAbsolutes[i] = modules[i].getPosition();
     }
 
     pose = pose.exp(twist);
@@ -315,5 +325,13 @@ public class Drive extends SubsystemBase {
   @AutoLogOutput
   public double getYaw() {
     return pose.getRotation().getRadians();
+  }
+
+  public void updateVision(SwerveModulePosition[] wheelAbsolutes) {
+    // setPose(pi.getTagPose(getYaw(), getPose()));
+    if (pi.getIDOne() != -1) {
+      kalman.addVisionMeasurement(pi.getTagPose(getYaw(), getPose()), Timer.getFPGATimestamp());
+    }
+    kalman.updateWithTime(Timer.getFPGATimestamp(), lastGyroRotation, wheelAbsolutes);
   }
 }

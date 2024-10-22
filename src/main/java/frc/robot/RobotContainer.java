@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -52,6 +53,7 @@ public class RobotContainer {
 
   // shuffleboard
   ShuffleboardTab boomerangTab;
+  public static GenericEntry hasNote;
 
   // Controller
   public static CommandXboxController driveController = new CommandXboxController(0);
@@ -286,6 +288,15 @@ public class RobotContainer {
                 () -> -90,
                 () -> drive.getYaw(),
                 () -> Constants.driveRobotRelative));
+    driveController
+        .rightStick()
+        .toggleOnTrue(
+            DriveCommands.joystickDriveFacingPoint(
+                drive,
+                () -> -driveController.getLeftY() * Constants.DriveConstants.lowGearScaler,
+                () -> -driveController.getLeftX() * Constants.DriveConstants.lowGearScaler,
+                FieldConstants.Speaker.centerSpeakerOpening.toTranslation2d(),
+                () -> drive.getYaw()));
 
     intake.setDefaultCommand(new InstantCommand(() -> intake.stop(), intake));
     driveController.rightTrigger(0.9).whileTrue(intake.runEatCommand());
