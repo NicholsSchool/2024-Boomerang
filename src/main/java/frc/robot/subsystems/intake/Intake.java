@@ -160,13 +160,8 @@ public class Intake extends SubsystemBase {
   }
 
   @AutoLogOutput
-  public double getFirstVelocityRPMs() {
-    return Units.radiansPerSecondToRotationsPerMinute(inputs.firstIntakeVelocityRadPerSec);
-  }
-
-  @AutoLogOutput
-  public double getSecondVelocityRPMs() {
-    return Units.radiansPerSecondToRotationsPerMinute(inputs.secondIntakeAppliedVolts);
+  public double getVeloctiyRPMS() {
+    return Units.radiansPerSecondToRotationsPerMinute(inputs.velocityRadPerSec);
   }
 
   public Command runEatCommand() {

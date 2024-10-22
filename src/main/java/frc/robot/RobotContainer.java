@@ -32,7 +32,7 @@ import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.intake.Intake;
-import frc.robot.subsystems.intake.IntakeIO;
+import frc.robot.subsystems.intake.IntakeIOReal;
 import frc.robot.subsystems.intake.IntakeIOSim;
 import frc.robot.util.AllianceFlipUtil;
 import frc.robot.util.LoggedTunableNumber;
@@ -94,7 +94,7 @@ public class RobotContainer {
                 new ModuleIOTalonFX(1),
                 new ModuleIOTalonFX(2),
                 new ModuleIOTalonFX(3));
-        intake = new Intake(new IntakeIO() {});
+        intake = new Intake(new IntakeIOReal());
         break;
 
       case ROBOT_SIM:
@@ -287,8 +287,8 @@ public class RobotContainer {
                 () -> drive.getYaw(),
                 () -> Constants.driveRobotRelative));
 
-    // intake.setDefaultCommand(new InstantCommand(() -> intake.stop()));
-    // driveController.leftTrigger(0.9).whileTrue(intake.runEatCommand());
+    intake.setDefaultCommand(new InstantCommand(() -> intake.stop(), intake));
+    driveController.rightTrigger(0.9).whileTrue(intake.runEatCommand());
     // driveController.rightTrigger(0.9).whileTrue(intake.runPoopCommand());
   }
 

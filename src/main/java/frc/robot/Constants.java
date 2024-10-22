@@ -56,8 +56,7 @@ public final class Constants {
 
     public static final int kPowerDistributionHub = 50;
 
-    public static final int kFirstIntakeCanId = 28;
-    public static final int kSecondIntakeCanId = 29;
+    public static final int kIntakeCanId = 29;
   }
 
   public static final class RobotConstants {
@@ -109,8 +108,8 @@ public final class Constants {
     public static final double secondStageGearRatio = 0.0;
 
     public static int kBeamBreakChannel;
-    public static double kVomitRPM;
-    public static double kEatRPM;
+    public static double kVomitRPM = 200;
+    public static double kEatRPM = 600;
     public static double kPoopRPM;
     public static double kDigestRPM;
     public static double kVomitDelay;
