@@ -309,7 +309,6 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // var path = PathPlannerAuto.getStaringPoseFromAutoFile("TestAuto");
     // var path = PathPlannerPath.fromChoreoTrajectory("New Path");
-    // TODO: set starting pos based on SIDE (RED/BLUE)
     NamedCommands.registerCommand("RunIntake", intake.runEatCommand());
     NamedCommands.registerCommand("StopIntake", new InstantCommand(() -> intake.stop(), intake));
     drive.setPose(PathPlannerAuto.getStaringPoseFromAutoFile("TestAuto"));
@@ -317,6 +316,8 @@ public class RobotContainer {
     // return AutoBuilder.followPath(PathPlannerPath.fromPathFile("TestPath"));
     // return autoChooser.get();
   }
+
+  private void addAutos() {}
 
   private void addTestingAutos() {
     // Pathplanner Auto Testing

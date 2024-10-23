@@ -28,7 +28,7 @@ public class IntakeIOReal implements IntakeIO {
     inputs.appliedVolts =
         motor.getMotorVoltage().getValueAsDouble() * motor.getSupplyVoltage().getValueAsDouble();
     inputs.currentAmps = motor.getStatorCurrent().getValueAsDouble();
-    inputs.hasNote = !beamBreak.get();
+    inputs.hasNote = false;
   }
 
   @Override
