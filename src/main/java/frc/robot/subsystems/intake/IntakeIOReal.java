@@ -17,7 +17,7 @@ public class IntakeIOReal implements IntakeIO {
     System.out.println("[Init] Creating IntakeIOReal");
 
     // breamBreak = new DigitalInput(IntakeConstants.kBeamBreakChannel);
-    motor = new TalonFX(CAN.kIntakeCanId);
+    motor = new TalonFX(CAN.kIntake);
     motor.clearStickyFaults();
     motor.setInverted(true);
     motor.setNeutralMode(NeutralModeValue.Coast);

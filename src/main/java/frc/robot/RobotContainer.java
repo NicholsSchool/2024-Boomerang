@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.RobotConstants;
@@ -35,6 +37,9 @@ import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIOReal;
 import frc.robot.subsystems.intake.IntakeIOSim;
+import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.ShooterIOReal;
+import frc.robot.subsystems.shooter.ShooterIOSim;
 import frc.robot.util.AllianceFlipUtil;
 import frc.robot.util.LoggedTunableNumber;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -49,6 +54,7 @@ public class RobotContainer {
   // Subsystems
   private final Drive drive;
   private final Intake intake;
+  private final Shooter shooter;
   private PowerDistribution pdh;
 
   // shuffleboard
@@ -97,6 +103,7 @@ public class RobotContainer {
                 new ModuleIOTalonFX(2),
                 new ModuleIOTalonFX(3));
         intake = new Intake(new IntakeIOReal());
+        shooter = new Shooter(new ShooterIOReal());
         break;
 
       case ROBOT_SIM:
@@ -109,6 +116,7 @@ public class RobotContainer {
                 new ModuleIOSim(),
                 new ModuleIOSim());
         intake = new Intake(new IntakeIOSim());
+        shooter = new Shooter(new ShooterIOSim());
         break;
 
       case ROBOT_FOOTBALL:
@@ -120,6 +128,7 @@ public class RobotContainer {
                 new ModuleIOSim(),
                 new ModuleIOSim());
         intake = new Intake(new IntakeIOSim());
+        shooter = new Shooter(new ShooterIOSim());
         break;
 
       default:
@@ -135,6 +144,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
         intake = new Intake(new IntakeIOSim());
+        shooter = new Shooter(new ShooterIOSim());
         break;
     }
 
@@ -300,6 +310,13 @@ public class RobotContainer {
 
     intake.setDefaultCommand(new InstantCommand(() -> intake.stop(), intake));
     driveController.rightTrigger(0.9).whileTrue(intake.runEatCommand());
+    driveController
+        .povUp()
+        .whileTrue(
+            new ParallelCommandGroup(
+                new SequentialCommandGroup(new WaitCommand(1.5), intake.runDigestCommand()),
+                shooter.runShootCommand()));
+    driveController.leftTrigger(0.8).whileTrue(intake.runDigestCommand());
     // driveController.rightTrigger(0.9).whileTrue(intake.runPoopCommand());
   }
 

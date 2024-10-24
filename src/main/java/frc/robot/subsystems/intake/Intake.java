@@ -102,7 +102,7 @@ public class Intake extends SubsystemBase {
         case kStopped:
           setpointRPMs = 0.0;
       }
-
+      
       setpointRadPerSec = Units.rotationsPerMinuteToRadiansPerSecond(setpointRPMs);
       controller.setSetpoint(setpointRadPerSec);
       double voltage = ffModel.calculate(setpointRadPerSec);

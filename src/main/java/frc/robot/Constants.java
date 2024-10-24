@@ -58,9 +58,10 @@ public final class Constants {
 
     public static final int kPowerDistributionHub = 50;
 
-    public static final int kIntakeCanId = 29;
+    public static final int kIntake = 29;
 
-    public static final int kBeamBreakChannel = 8;
+    public static final int kShooterTop = 48;
+    public static final int kShooterBottom = 49;
   }
 
   public static final class RobotConstants {
@@ -112,12 +113,23 @@ public final class Constants {
     public static final double firstStageGearRatio = 0.0;
     public static final double secondStageGearRatio = 0.0;
 
-    public static int kBeamBreakChannel;
     public static double kVomitRPM = 200;
     public static double kEatRPM = 600;
     public static double kPoopRPM;
-    public static double kDigestRPM;
+    public static double kDigestRPM = 800;
     public static double kVomitDelay;
+  }
+
+  public static final class ShooterConstants {
+    public static final double kSHOOTER_GEAR_RATIO = 1.0;
+
+    public static final double kShooterRPM = 2500;
+
+    public static final double kCurrentLimit = 35; // amps
+
+    public static double kP = 1.5;
+
+    public static double kD;
   }
 
   public static final class AutoConstants {
