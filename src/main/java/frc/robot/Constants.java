@@ -80,8 +80,7 @@ public final class Constants {
 
   // REV MAXSwerve Modules
   public static final class ModuleConstants {
-    public static final double kWheelDiameterMeters =
-        Units.inchesToMeters(4.0); // 3 inch wheels TODO:update
+    public static final double kWheelDiameterMeters = Units.inchesToMeters(4.0); // 4-in with tread
     public static final double kWheelRadiusMeters = kWheelDiameterMeters / 2.0;
     public static final double kDrivingMotorFreeSpinRPM = 6000; // Kraken non-FOC max RPM
     public static final double odometryCoefficient = 1.0; // TODO: tune odometry and use this
@@ -93,7 +92,7 @@ public final class Constants {
     public static final double kDrivingStaticFF = 0.1;
     public static final double kDrivingVelocityFF = 0.13;
 
-    public static final double kTurningP = 6.0; // TODO: tune these
+    public static final double kTurningP = 6.2; // TODO: tune these
     public static final double kTurningI = 0.0;
     public static final double kTurningD = 0.12;
     public static final double kTurningFF = 0.0;
@@ -110,13 +109,11 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
-    public static final double firstStageGearRatio = 0.0;
-    public static final double secondStageGearRatio = 0.0;
 
     public static double kVomitRPM = 200;
     public static double kEatRPM = 600;
+    public static double kDigestRPM = 600;
     public static double kPoopRPM;
-    public static double kDigestRPM = 800;
     public static double kVomitDelay;
   }
 

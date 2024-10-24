@@ -310,13 +310,15 @@ public class RobotContainer {
 
     intake.setDefaultCommand(new InstantCommand(() -> intake.stop(), intake));
     driveController.rightTrigger(0.9).whileTrue(intake.runEatCommand());
+    driveController.povUp().whileTrue(intake.runDigestCommand()); // override eat command
+    shooter.setDefaultCommand(new InstantCommand(() -> shooter.stop(), shooter));
     driveController
         .povUp()
         .whileTrue(
             new ParallelCommandGroup(
                 new SequentialCommandGroup(new WaitCommand(1.5), intake.runDigestCommand()),
                 new InstantCommand(() -> shooter.setShoot())));
-    driveController.leftTrigger(0.8).whileTrue(intake.runDigestCommand());
+
     // driveController.rightTrigger(0.9).whileTrue(intake.runPoopCommand());
   }
 
