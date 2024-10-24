@@ -315,7 +315,7 @@ public class RobotContainer {
         .whileTrue(
             new ParallelCommandGroup(
                 new SequentialCommandGroup(new WaitCommand(1.5), intake.runDigestCommand()),
-                shooter.runShootCommand()));
+                new InstantCommand(() -> shooter.setShoot())));
     driveController.leftTrigger(0.8).whileTrue(intake.runDigestCommand());
     // driveController.rightTrigger(0.9).whileTrue(intake.runPoopCommand());
   }

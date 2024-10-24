@@ -13,6 +13,6 @@ public class ShootCommand extends Command {
     new ParallelCommandGroup(
         new SequentialCommandGroup(
             new WaitCommand(1.0), new InstantCommand(() -> intake.runEatCommand())),
-        new InstantCommand(() -> shooter.runShootCommand()));
+        new InstantCommand(() -> shooter.setShoot()));
   }
 }

@@ -4,11 +4,8 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.ShooterConstants;
 import frc.robot.util.LoggedTunableNumber;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
@@ -48,12 +45,11 @@ public class Shooter extends SubsystemBase {
     io.setBrakeMode(false);
 
     shootVelocity.initDefault(Constants.ShooterConstants.kShooterRPM);
-    deliverVelocity.initDefault(1000.0);
-    reverseVeloctiy.initDefault(-100.0);
-    deliverVelocity.initDefault(1000.0);
+    reverseVeloctiy.initDefault(Constants.ShooterConstants.kReverseRPM);
+    deliverVelocity.initDefault(Constants.ShooterConstants.kDeliverRPM);
     spinDurationSec.initDefault(1.5);
-    kP.initDefault(ShooterConstants.kP);
-    kD.initDefault(ShooterConstants.kD);
+    kP.initDefault(Constants.ShooterConstants.kP);
+    kD.initDefault(Constants.ShooterConstants.kD);
 
     // Switch constants based on mode (the physics simulator is treated as a
     // separate robot with different tuning)
@@ -88,7 +84,7 @@ public class Shooter extends SubsystemBase {
     } else {
       switch (mode) {
         case kShoot:
-          setpoint = 4000;
+          setpoint = shootVelocity.get();
           break;
         case kDeliver:
           setpoint = deliverVelocity.get();
@@ -139,9 +135,5 @@ public class Shooter extends SubsystemBase {
   @AutoLogOutput
   public double getActualVelocityRPMs() {
     return inputs.velocityRPMs;
-  }
-
-  public Command runShootCommand() {
-    return new InstantCommand(() -> this.setShoot());
   }
 }

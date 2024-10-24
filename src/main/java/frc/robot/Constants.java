@@ -124,12 +124,13 @@ public final class Constants {
     public static final double kSHOOTER_GEAR_RATIO = 1.0;
 
     public static final double kShooterRPM = 2500;
+    public static final double kDeliverRPM = 1000;
+    public static final double kReverseRPM = 400;
 
     public static final double kCurrentLimit = 35; // amps
 
     public static double kP = 1.5;
-
-    public static double kD;
+    public static double kD = 0.0;
   }
 
   public static final class AutoConstants {
