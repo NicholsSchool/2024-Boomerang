@@ -122,6 +122,7 @@ public final class Constants {
     public static final double ARM_GEAR_RATIO = 1.0 / ARM_GEAR_REDUCTION;
 
     public static final double kAbsoluteEncoderOffset = 0.0;
+    // the absolute encoder value in degrees when the intended value is zero
 
     public static final double ARM_P = 1.0;
     public static final double ARM_I = 0.0;
@@ -134,7 +135,7 @@ public final class Constants {
 
     public static double kVomitRPM = 200;
     public static double kEatRPM = 600;
-    public static double kDigestRPM = 600;
+    public static double kDigestRPM = 1200;
     public static double kPoopRPM;
     public static double kVomitDelay;
   }

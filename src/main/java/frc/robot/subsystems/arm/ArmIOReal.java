@@ -30,7 +30,7 @@ public class ArmIOReal implements ArmIO {
 
   @Override
   public void updateInputs(ArmIOInputs inputs) {
-    inputs.angleDegs = this.getArmAngleDeg();
+    inputs.angleDegs = this.getArmAngleDeg() - Constants.ArmConstants.kAbsoluteEncoderOffset;
     inputs.angleRads = Math.toRadians(this.getArmAngleDeg());
     inputs.velocityRadsPerSec =
         new double[] {

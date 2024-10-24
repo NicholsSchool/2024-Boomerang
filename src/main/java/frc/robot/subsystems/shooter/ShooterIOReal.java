@@ -27,7 +27,8 @@ public class ShooterIOReal implements ShooterIO {
   @Override
   public void updateInputs(ShooterIOInputs inputs) {
     inputs.velocityRPMs =
-        (motorTop.getVelocity().getValueAsDouble() / Constants.ShooterConstants.kSHOOTER_GEAR_RATIO)
+        (motorBottom.getVelocity().getValueAsDouble()
+                / Constants.ShooterConstants.kSHOOTER_GEAR_RATIO)
             * 60.0;
     inputs.appliedVolts = motorTop.getMotorVoltage().getValueAsDouble();
     inputs.currentAmps = motorTop.getTorqueCurrent().getValueAsDouble();
@@ -35,7 +36,8 @@ public class ShooterIOReal implements ShooterIO {
 
   @Override
   public void setVoltage(double voltage) {
-    motorTop.setVoltage(voltage);
+    motorTop.setVoltage(-voltage);
+    motorBottom.setVoltage(-voltage);
   }
 
   @Override

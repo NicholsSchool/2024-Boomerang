@@ -28,6 +28,9 @@ import frc.robot.commands.AutoCommands;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.FeedForwardCharacterization;
 import frc.robot.commands.VoltageCommandRamp;
+import frc.robot.subsystems.arm.Arm;
+import frc.robot.subsystems.arm.ArmIOReal;
+import frc.robot.subsystems.arm.ArmIOSim;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIONAVX;
@@ -55,6 +58,7 @@ public class RobotContainer {
   private final Drive drive;
   private final Intake intake;
   private final Shooter shooter;
+  private final Arm arm;
   private PowerDistribution pdh;
 
   // shuffleboard
@@ -104,6 +108,7 @@ public class RobotContainer {
                 new ModuleIOTalonFX(3));
         intake = new Intake(new IntakeIOReal());
         shooter = new Shooter(new ShooterIOReal());
+        arm = new Arm(new ArmIOReal());
         break;
 
       case ROBOT_SIM:
@@ -117,6 +122,7 @@ public class RobotContainer {
                 new ModuleIOSim());
         intake = new Intake(new IntakeIOSim());
         shooter = new Shooter(new ShooterIOSim());
+        arm = new Arm(new ArmIOSim());
         break;
 
       case ROBOT_FOOTBALL:
@@ -129,6 +135,7 @@ public class RobotContainer {
                 new ModuleIOSim());
         intake = new Intake(new IntakeIOSim());
         shooter = new Shooter(new ShooterIOSim());
+        arm = new Arm(new ArmIOSim());
         break;
 
       default:
@@ -145,6 +152,7 @@ public class RobotContainer {
                 new ModuleIO() {});
         intake = new Intake(new IntakeIOSim());
         shooter = new Shooter(new ShooterIOSim());
+        arm = new Arm(new ArmIOSim());
         break;
     }
 
@@ -310,14 +318,14 @@ public class RobotContainer {
 
     intake.setDefaultCommand(new InstantCommand(() -> intake.stop(), intake));
     driveController.rightTrigger(0.9).whileTrue(intake.runEatCommand());
-    driveController.povUp().whileTrue(intake.runDigestCommand()); // override eat command
+    driveController.leftTrigger(0.8).whileTrue(intake.runDigestCommand()); // override sensor
     shooter.setDefaultCommand(new InstantCommand(() -> shooter.stop(), shooter));
     driveController
         .povUp()
         .whileTrue(
             new ParallelCommandGroup(
                 new SequentialCommandGroup(new WaitCommand(1.5), intake.runDigestCommand()),
-                new InstantCommand(() -> shooter.setShoot())));
+                new InstantCommand(() -> shooter.setShoot(), shooter)));
 
     // driveController.rightTrigger(0.9).whileTrue(intake.runPoopCommand());
   }
