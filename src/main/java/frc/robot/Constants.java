@@ -79,7 +79,8 @@ public final class Constants {
 
   // REV MAXSwerve Modules
   public static final class ModuleConstants {
-    public static final double kWheelDiameterMeters = 0.0762; // 3 inch wheels TODO:update
+    public static final double kWheelDiameterMeters =
+        Units.inchesToMeters(4.0); // 3 inch wheels TODO:update
     public static final double kWheelRadiusMeters = kWheelDiameterMeters / 2.0;
     public static final double kDrivingMotorFreeSpinRPM = 6000; // Kraken non-FOC max RPM
     public static final double odometryCoefficient = 1.0; // TODO: tune odometry and use this

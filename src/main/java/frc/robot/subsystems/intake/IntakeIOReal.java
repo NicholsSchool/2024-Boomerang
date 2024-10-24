@@ -1,14 +1,19 @@
 package frc.robot.subsystems.intake;
 
+import org.littletonrobotics.junction.AutoLogOutput;
+
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants.CAN;
+import frc.robot.util.RevDistanceSensor.Rev2mDistanceSensor;
+import frc.robot.util.RevDistanceSensor.Rev2mDistanceSensor.Port;
+import frc.robot.util.RevDistanceSensor.Rev2mDistanceSensor.RangeProfile;
+import frc.robot.util.RevDistanceSensor.Rev2mDistanceSensor.Unit;
 
 public class IntakeIOReal implements IntakeIO {
   // private DigitalInput breamBreak;
   private TalonFX motor;
-  private DigitalInput beamBreak;
+  private Rev2mDistanceSensor distSensor;
 
   public IntakeIOReal() {
     System.out.println("[Init] Creating IntakeIOReal");
@@ -19,7 +24,9 @@ public class IntakeIOReal implements IntakeIO {
     motor.setInverted(true);
     motor.setNeutralMode(NeutralModeValue.Coast);
 
-    beamBreak = new DigitalInput(CAN.kBeamBreakChannel);
+    distSensor = new Rev2mDistanceSensor(Port.kOnboard); //i2c port
+    distSensor.setDistanceUnits(Unit.kInches);
+    distSensor.setRangeProfile(RangeProfile.kDefault);
   }
 
   @Override
@@ -39,5 +46,10 @@ public class IntakeIOReal implements IntakeIO {
   @Override
   public void setBrakeMode(boolean brake) {
     motor.setNeutralMode(brake ? NeutralModeValue.Brake : NeutralModeValue.Coast);
+  }
+
+  @AutoLogOutput
+  public double getDistSensorRangeInches() {
+    return distSensor.getRange();
   }
 }
