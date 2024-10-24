@@ -142,4 +142,9 @@ public class GeomUtil {
   public static Translation2d translation3dTo2dXZ(Translation3d translation) {
     return new Translation2d(translation.getX(), translation.getZ());
   }
+
+
+  public static double distance(Pose2d botPose, Pose2d object) {
+    return Math.hypot(botPose.getX() - object.getX(), botPose.getY() - object.getY());
+  }
 }
