@@ -56,12 +56,15 @@ public final class Constants {
     public static final int kBackRightPivot = 51;
     public static final int kBackRightEncoder = 52;
 
-    public static final int kPowerDistributionHub = 50;
+    public static final int kShoulderL = 38;
+    public static final int kShoulderR = 39;
 
     public static final int kIntake = 29;
 
     public static final int kShooterTop = 48;
     public static final int kShooterBottom = 49;
+
+    public static final int kPowerDistributionHub = 50;
   }
 
   public static final class RobotConstants {
@@ -106,6 +109,25 @@ public final class Constants {
     // SDS MK4i L2 Modules
     public static final double kDRIVE_GEAR_RATIO = (50.0 / 14.0) * (17.0 / 27.0) * (45.0 / 15.0);
     public static final double kTURN_GEAR_RATIO = 150.0 / 7.0;
+  }
+
+  public static final class ArmConstants {
+    public static double ArmStartPosDeg = 90.0;
+
+    public static final int ARM_CURRENT_LIMIT = 35; // amps
+    public static final double MIN_ANGLE_RADS = 0;
+    public static final double MAX_ANGLE_RADS = Math.PI;
+
+    public static final double ARM_GEAR_REDUCTION = 45.0;
+    public static final double ARM_GEAR_RATIO = 1.0 / ARM_GEAR_REDUCTION;
+
+    public static final double kAbsoluteEncoderOffset = 0.0;
+
+    public static final double ARM_P = 1.0;
+    public static final double ARM_I = 0.0;
+    public static final double ARM_D = 0.0;
+
+    public static final int kThroughBoreChannel = 6;
   }
 
   public static final class IntakeConstants {
