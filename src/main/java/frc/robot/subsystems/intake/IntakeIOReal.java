@@ -1,14 +1,12 @@
 package frc.robot.subsystems.intake;
 
-import org.littletonrobotics.junction.AutoLogOutput;
-
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.revrobotics.Rev2mDistanceSensor;
+import com.revrobotics.Rev2mDistanceSensor.Port;
+import com.revrobotics.Rev2mDistanceSensor.Unit;
 import frc.robot.Constants.CAN;
-import frc.robot.util.RevDistanceSensor.Rev2mDistanceSensor;
-import frc.robot.util.RevDistanceSensor.Rev2mDistanceSensor.Port;
-import frc.robot.util.RevDistanceSensor.Rev2mDistanceSensor.RangeProfile;
-import frc.robot.util.RevDistanceSensor.Rev2mDistanceSensor.Unit;
+import org.littletonrobotics.junction.AutoLogOutput;
 
 public class IntakeIOReal implements IntakeIO {
   // private DigitalInput breamBreak;
@@ -24,9 +22,9 @@ public class IntakeIOReal implements IntakeIO {
     motor.setInverted(true);
     motor.setNeutralMode(NeutralModeValue.Coast);
 
-    distSensor = new Rev2mDistanceSensor(Port.kOnboard); //i2c port
+    distSensor = new Rev2mDistanceSensor(Port.kOnboard); // i2c port
     distSensor.setDistanceUnits(Unit.kInches);
-    distSensor.setRangeProfile(RangeProfile.kDefault);
+    distSensor.setAutomaticMode(true);
   }
 
   @Override
@@ -35,7 +33,7 @@ public class IntakeIOReal implements IntakeIO {
     inputs.appliedVolts =
         motor.getMotorVoltage().getValueAsDouble() * motor.getSupplyVoltage().getValueAsDouble();
     inputs.currentAmps = motor.getStatorCurrent().getValueAsDouble();
-    inputs.hasNote = false;
+    inputs.hasNote = this.hasNoteFromDist();
   }
 
   @Override
@@ -51,5 +49,9 @@ public class IntakeIOReal implements IntakeIO {
   @AutoLogOutput
   public double getDistSensorRangeInches() {
     return distSensor.getRange();
+  }
+
+  private boolean hasNoteFromDist() {
+    return distSensor.isEnabled() && distSensor.getRange() < 10.0;
   }
 }
