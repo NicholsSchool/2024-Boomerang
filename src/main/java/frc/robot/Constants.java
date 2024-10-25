@@ -61,6 +61,8 @@ public final class Constants {
 
     public static final int kIntake = 29;
 
+    public static final int kIndexer = 0;
+
     public static final int kShooterTop = 48;
     public static final int kShooterBottom = 49;
 
@@ -138,6 +140,13 @@ public final class Constants {
     public static double kDigestRPM = 1200;
     public static double kPoopRPM;
     public static double kVomitDelay;
+  }
+
+  public static final class IndexerConstants {
+    public static double kIndexRPM = 500;
+    public static double kReverseRPM = -500;
+
+    public static final int INDEX_CURRENT_LIMIT = 35; // amps
   }
 
   public static final class ShooterConstants {
