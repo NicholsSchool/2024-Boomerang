@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4231060227870231,
-      "y": 5.623404467749486
+      "x": 1.3364832659984074,
+      "y": 5.490176732762657
     },
-    "rotation": -177.7688253919687
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -18,7 +18,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "TestPath"
+                  "pathName": "Example Path"
                 }
               },
               {
@@ -26,15 +26,33 @@
                 "data": {
                   "commands": [
                     {
+                      "type": "named",
+                      "data": {
+                        "name": "Shoot"
+                      }
+                    },
+                    {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.8
+                        "waitTime": 1.0
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "RunIntake"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Shoot"
                       }
                     }
                   ]
