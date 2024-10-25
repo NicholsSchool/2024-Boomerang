@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.RobotConstants;
 import frc.robot.Constants.RobotType;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.AutoCommands;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.FeedForwardCharacterization;
@@ -37,6 +38,9 @@ import frc.robot.subsystems.drive.GyroIONAVX;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.indexer.Indexer;
+import frc.robot.subsystems.indexer.IndexerIOReal;
+import frc.robot.subsystems.indexer.IndexerIOSim;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIOReal;
 import frc.robot.subsystems.intake.IntakeIOSim;
@@ -59,6 +63,7 @@ public class RobotContainer {
   private final Intake intake;
   private final Shooter shooter;
   private final Arm arm;
+  private final Indexer indexer;
   private PowerDistribution pdh;
 
   // shuffleboard
@@ -109,6 +114,7 @@ public class RobotContainer {
         intake = new Intake(new IntakeIOReal());
         shooter = new Shooter(new ShooterIOReal());
         arm = new Arm(new ArmIOReal());
+        indexer = new Indexer(new IndexerIOReal());
         break;
 
       case ROBOT_SIM:
@@ -123,6 +129,7 @@ public class RobotContainer {
         intake = new Intake(new IntakeIOSim());
         shooter = new Shooter(new ShooterIOSim());
         arm = new Arm(new ArmIOSim());
+        indexer = new Indexer(new IndexerIOSim());
         break;
 
       case ROBOT_FOOTBALL:
@@ -136,6 +143,8 @@ public class RobotContainer {
         intake = new Intake(new IntakeIOSim());
         shooter = new Shooter(new ShooterIOSim());
         arm = new Arm(new ArmIOSim());
+        indexer = new Indexer(new IndexerIOSim());
+
         break;
 
       default:
@@ -153,6 +162,8 @@ public class RobotContainer {
         intake = new Intake(new IntakeIOSim());
         shooter = new Shooter(new ShooterIOSim());
         arm = new Arm(new ArmIOSim());
+        indexer = new Indexer(new IndexerIOSim());
+
         break;
     }
 
@@ -318,19 +329,25 @@ public class RobotContainer {
 
     intake.setDefaultCommand(new InstantCommand(() -> intake.stop(), intake));
     shooter.setDefaultCommand(new InstantCommand(() -> shooter.stop(), shooter));
-    // arm.setDefaultCommand(arm.runGoToPosCommand(20.0)); //TODO: tune idle arm angle
+    indexer.setDefaultCommand(new InstantCommand(() -> indexer.stop(), indexer));
+    // TODO: tune idle arm angle
 
     driveController.rightTrigger(0.9).whileTrue(intake.runEatCommand());
-    driveController.leftTrigger(0.8).whileTrue(intake.runDigestCommand()); // override sensor
+    driveController.rightBumper().whileTrue(intake.runVomitCommand());
 
     driveController
         .povUp()
         .whileTrue(
             new ParallelCommandGroup(
-                new SequentialCommandGroup(new WaitCommand(1.5), intake.runDigestCommand()),
+                new SequentialCommandGroup(
+                    new WaitCommand(ShooterConstants.shootRampUpTimeSecs),
+                    new ParallelCommandGroup(
+                        intake.runDigestCommand(),
+                        new InstantCommand(() -> indexer.index(), indexer))),
                 new InstantCommand(() -> shooter.setShoot(), shooter)));
 
-    driveController.povDown().onTrue(arm.runGoToPosCommand(45));
+    driveController.leftBumper().whileTrue(arm.runGoToPosCommand(40.0));
+    driveController.leftBumper().whileFalse(arm.runGoToPosCommand(20.0));
     // driveController.rightTrigger(0.9).whileTrue(intake.runPoopCommand());
   }
 

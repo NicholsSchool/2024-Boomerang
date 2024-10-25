@@ -33,7 +33,7 @@ public class IntakeIOReal implements IntakeIO {
     inputs.appliedVolts =
         motor.getMotorVoltage().getValueAsDouble() * motor.getSupplyVoltage().getValueAsDouble();
     inputs.currentAmps = motor.getStatorCurrent().getValueAsDouble();
-    inputs.hasNote = this.hasNoteFromDist();
+    inputs.hasNote = false;
   }
 
   @Override

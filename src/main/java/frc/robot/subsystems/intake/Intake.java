@@ -182,9 +182,7 @@ public class Intake extends SubsystemBase {
     // then stop.
     return new SequentialCommandGroup(
             new InstantCommand(() -> System.out.println("Intake: Vomit"), this),
-            new RunCommand(() -> this.vomit(), this).unless(this::hasNoNote).until(this::hasNoNote),
-            new WaitCommand(IntakeConstants.kVomitDelay) // run a bit more to advance the note
-            )
+            new RunCommand(() -> this.vomit(), this))
         .finallyDo(() -> this.stop());
   }
 

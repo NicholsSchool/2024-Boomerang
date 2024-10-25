@@ -1,6 +1,7 @@
 package frc.robot.subsystems.arm;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -18,6 +19,7 @@ public class Arm extends SubsystemBase {
   private ArmIO io;
   private final ArmIOInputsAutoLogged inputs = new ArmIOInputsAutoLogged();
 
+  private final SimpleMotorFeedforward ffModel = new SimpleMotorFeedforward(0.0, 0.2);
   private final ProfiledPIDController armPidController =
       new ProfiledPIDController(
           0.0, 0.0, 0.0, new TrapezoidProfile.Constraints(0.0, 0.0), Constants.loopPeriodSecs);
@@ -25,9 +27,9 @@ public class Arm extends SubsystemBase {
   private double prevVelocity = 0.0;
   private double accelRad = 0.0;
 
-  private double targetAngleDeg = 0.0;
+  private double targetAngleDeg = 50.0;
   private double voltageCmdPid = 0.0;
-  private boolean reachedTargetPos = false;
+  private boolean reachedTargetPos = true;
   private boolean targetPosSet = false;
 
   private static final LoggedTunableNumber positionToleranceDeg =
@@ -43,7 +45,7 @@ public class Arm extends SubsystemBase {
   public Arm(ArmIO io) {
     this.io = io;
 
-    reachedTargetPos = false;
+    reachedTargetPos = true;
     positionToleranceDeg.initDefault(2.0);
 
     armMaxAccelerationRad.initDefault(1.1);
@@ -56,8 +58,6 @@ public class Arm extends SubsystemBase {
     armPidController.setP(armKd.get());
     armPidController.setI(armKi.get());
     armPidController.setD(armKd.get());
-    armPidController.setConstraints(
-        new TrapezoidProfile.Constraints(armMaxVelocityRad.get(), armMaxAccelerationRad.get()));
     armPidController.setTolerance(Units.degreesToRadians(positionToleranceDeg.get()));
   }
 
@@ -73,14 +73,17 @@ public class Arm extends SubsystemBase {
 
     if (DriverStation.isDisabled()) {}
 
-    voltageCmdPid = -armPidController.calculate(inputs.angleRads);
+    voltageCmdPid = armPidController.calculate(inputs.angleRads)
+    // + BradyMathLib.avg(
+    // ffModel.calculate(inputs.velocityRadsPerSec[0]),
+    ; // ffModel.calculate(inputs.velocityRadsPerSec[1]));
 
     if (!reachedTargetPos) {
       reachedTargetPos = armPidController.atGoal();
       if (reachedTargetPos) System.out.println("Arm Move to Pos Reached Goal!");
     }
 
-    io.setVoltage(voltageCmdPid);
+    io.setVoltage(-voltageCmdPid);
   }
 
   public double softLimit() {

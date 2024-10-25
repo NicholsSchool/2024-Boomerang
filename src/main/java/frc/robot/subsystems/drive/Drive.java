@@ -147,8 +147,8 @@ public class Drive extends SubsystemBase {
       wheelAbsolutes[i] = modules[i].getPosition();
     }
 
-    pose = kalman.getEstimatedPosition();
-    updateVision(wheelAbsolutes);
+    // pose = kalman.getEstimatedPosition();
+    // updateVision(wheelAbsolutes);
 
     // Log measured states
     SwerveModuleState[] measuredStates = new SwerveModuleState[4];

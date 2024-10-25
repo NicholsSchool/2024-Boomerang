@@ -61,7 +61,7 @@ public final class Constants {
 
     public static final int kIntake = 29;
 
-    public static final int kIndexer = 0;
+    public static final int kIndexer = 47;
 
     public static final int kShooterTop = 48;
     public static final int kShooterBottom = 49;
@@ -105,8 +105,8 @@ public final class Constants {
     public static final IdleMode kDrivingMotorIdleMode = IdleMode.kBrake;
     public static final IdleMode kTurningMotorIdleMode = IdleMode.kBrake;
 
-    public static final int kDrivingMotorCurrentLimit = 30; // amps
-    public static final int kTurningMotorCurrentLimit = 30; // amps
+    public static final int kDrivingMotorCurrentLimit = 35; // amps
+    public static final int kTurningMotorCurrentLimit = 35; // amps
 
     // SDS MK4i L2 Modules
     public static final double kDRIVE_GEAR_RATIO = (50.0 / 14.0) * (17.0 / 27.0) * (45.0 / 15.0);
@@ -126,16 +126,16 @@ public final class Constants {
     public static final double kAbsoluteEncoderOffset = 0.0;
     // the absolute encoder value in degrees when the intended value is zero
 
-    public static final double ARM_P = 1.0;
+    public static final double ARM_P = 5;
     public static final double ARM_I = 0.0;
-    public static final double ARM_D = 0.0;
+    public static final double ARM_D = 0.02;
 
     public static final int kThroughBoreChannel = 7;
   }
 
   public static final class IntakeConstants {
 
-    public static double kVomitRPM = 200;
+    public static double kVomitRPM = -800;
     public static double kEatRPM = 600;
     public static double kDigestRPM = 1200;
     public static double kPoopRPM;
@@ -143,8 +143,10 @@ public final class Constants {
   }
 
   public static final class IndexerConstants {
-    public static double kIndexRPM = 500;
-    public static double kReverseRPM = -500;
+    public static final double kINDEXER_GEAR_RATIO = 1.0;
+
+    public static double kIndexRPM = -500;
+    public static double kReverseRPM = 500;
 
     public static final int INDEX_CURRENT_LIMIT = 35; // amps
   }
@@ -160,6 +162,8 @@ public final class Constants {
 
     public static double kP = 1.5;
     public static double kD = 0.0;
+
+    public static double shootRampUpTimeSecs = 1.2;
   }
 
   public static final class AutoConstants {
