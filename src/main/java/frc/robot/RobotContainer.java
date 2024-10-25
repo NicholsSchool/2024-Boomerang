@@ -28,6 +28,7 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.AutoCommands;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.FeedForwardCharacterization;
+import frc.robot.commands.Shoot;
 import frc.robot.commands.VisionCommands.ArmToShoot;
 import frc.robot.commands.VoltageCommandRamp;
 import frc.robot.subsystems.arm.Arm;
@@ -364,10 +365,12 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // var path = PathPlannerAuto.getStaringPoseFromAutoFile("TestAuto");
     // var path = PathPlannerPath.fromChoreoTrajectory("New Path");
-    NamedCommands.registerCommand("RunIntake", intake.runEatCommand());
+    NamedCommands.registerCommand("RunIntake", intake.runEatCommand().withTimeout(1.0));
     NamedCommands.registerCommand("StopIntake", new InstantCommand(() -> intake.stop(), intake));
-    drive.setPose(PathPlannerAuto.getStaringPoseFromAutoFile("TestAuto"));
-    return new PathPlannerAuto("TestAuto");
+    NamedCommands.registerCommand(
+        "Shoot", new InstantCommand(() -> new Shoot(shooter, intake, indexer)).withTimeout(3));
+    drive.setPose(PathPlannerAuto.getStaringPoseFromAutoFile("New Auto"));
+    return new PathPlannerAuto("New Auto");
     // return AutoBuilder.followPath(PathPlannerPath.fromPathFile("TestPath"));
     // return autoChooser.get();
   }
