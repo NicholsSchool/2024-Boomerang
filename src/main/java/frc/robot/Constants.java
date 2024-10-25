@@ -163,7 +163,7 @@ public final class Constants {
     public static double kP = 1.5;
     public static double kD = 0.0;
 
-    public static double shootRampUpTimeSecs = 1.2;
+    public static double shootRampUpTimeSecs = 5.0;
   }
 
   public static final class AutoConstants {

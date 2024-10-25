@@ -35,6 +35,6 @@ public class ArmToShoot extends InstantCommand {
                     AllianceFlipUtil.apply(FieldConstants.Speaker.centerSpeakerOpening.getX()),
                     FieldConstants.Speaker.centerSpeakerOpening.getY()),
                 new Rotation2d()));
-    arm.setTargetPos((-0.33 * Math.log(119.0 * (distance - 0.67)) + 2) * 180 / Math.PI);
+    arm.setTargetPos((-0.23 * Math.log(119.0 * (distance - 1.07) + 1.9) * 180 / Math.PI));
   }
 }
