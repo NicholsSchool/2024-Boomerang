@@ -145,7 +145,7 @@ public final class Constants {
   public static final class IndexerConstants {
     public static final double kINDEXER_GEAR_RATIO = 1.0;
 
-    public static double kIndexRPM = -500;
+    public static double kIndexRPM = -1000;
     public static double kReverseRPM = 500;
 
     public static final int INDEX_CURRENT_LIMIT = 35; // amps
@@ -163,7 +163,7 @@ public final class Constants {
     public static double kP = 1.5;
     public static double kD = 0.0;
 
-    public static double shootRampUpTimeSecs = 5.0;
+    public static double shootRampUpTimeSecs = 1.5;
   }
 
   public static final class AutoConstants {

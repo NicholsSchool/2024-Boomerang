@@ -325,7 +325,9 @@ public class RobotContainer {
                 drive,
                 () -> -driveController.getLeftY() * Constants.DriveConstants.lowGearScaler,
                 () -> -driveController.getLeftX() * Constants.DriveConstants.lowGearScaler,
-                FieldConstants.Speaker.centerSpeakerOpening.toTranslation2d(),
+                new Translation2d(
+                    FieldConstants.Speaker.centerSpeakerOpening.toTranslation2d().getX() - 0.5,
+                    FieldConstants.Speaker.centerSpeakerOpening.toTranslation2d().getY()),
                 () -> drive.getYaw()));
     driveController.rightStick().toggleOnTrue((new ArmToShoot(arm, drive)));
     // .repeatedly()
@@ -351,7 +353,7 @@ public class RobotContainer {
                         new InstantCommand(() -> indexer.index(), indexer))),
                 new InstantCommand(() -> shooter.setShoot(), shooter)));
 
-    driveController.leftBumper().whileTrue(arm.runGoToPosCommand(40.0));
+    driveController.leftBumper().whileTrue(arm.runGoToPosCommand(60.0));
     driveController.leftBumper().whileFalse(arm.runGoToPosCommand(20.0));
     // driveController.rightTrigger(0.9).whileTrue(intake.runPoopCommand());
   }

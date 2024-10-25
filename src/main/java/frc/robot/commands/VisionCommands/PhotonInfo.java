@@ -16,7 +16,7 @@ public class PhotonInfo extends Command {
   PhotonVision pv1;
 
   public PhotonInfo() {
-    pv1 = new PhotonVision("Arducam_OV2311_USB_Camera");
+    pv1 = new PhotonVision("Arducam_OV2311_USB_Camera (1) (2) (3) (4)");
     // rcommnad = new RamseteCommand(null, null, null, null, null, null, null, null, null, null);
   }
 
