@@ -71,14 +71,9 @@ public class Arm extends SubsystemBase {
     accelRad = (BradyMathLib.avg(inputs.velocityRadsPerSec[0], prevVelocity) / 0.02);
     prevVelocity = BradyMathLib.avg(inputs.velocityRadsPerSec[0], inputs.velocityRadsPerSec[1]);
 
-    if (!targetPosSet) {
-      targetPosSet = true;
-      setTargetPos(90.0);
-    }
-
     if (DriverStation.isDisabled()) {}
 
-    voltageCmdPid = armPidController.calculate(inputs.angleRads);
+    voltageCmdPid = -armPidController.calculate(inputs.angleRads);
 
     if (!reachedTargetPos) {
       reachedTargetPos = armPidController.atGoal();
@@ -88,12 +83,12 @@ public class Arm extends SubsystemBase {
     io.setVoltage(voltageCmdPid);
   }
 
-  public double softLimit(double inputVel) {
-    if ((inputs.angleDegs >= 100.0 && inputs.angleDegs <= 200.0) && inputVel > 0
-        || (inputs.angleDegs <= 2.0 || inputs.angleDegs >= 200.0) && inputVel < 0) {
+  public double softLimit() {
+    if ((inputs.angleDegs >= 80.0 && voltageCmdPid > 0)
+        || (inputs.angleDegs < 15.0 && voltageCmdPid < 0)) {
       return 0.0;
     }
-    return inputVel;
+    return voltageCmdPid;
   }
 
   public void setTargetPos(double targetAngleDeg) {
@@ -122,6 +117,10 @@ public class Arm extends SubsystemBase {
   }
 
   public Command runGoToPosCommand(double targetAngleDeg) {
+    if (targetAngleDeg > 90 || targetAngleDeg < 0) {
+      System.out.println("JAMES STOP THAT BAD GO TO POS ANGLE");
+      return new InstantCommand();
+    }
     return new InstantCommand(() -> setTargetPos(targetAngleDeg), this);
   }
 

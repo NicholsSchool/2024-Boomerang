@@ -317,9 +317,12 @@ public class RobotContainer {
                 () -> drive.getYaw()));
 
     intake.setDefaultCommand(new InstantCommand(() -> intake.stop(), intake));
+    shooter.setDefaultCommand(new InstantCommand(() -> shooter.stop(), shooter));
+    // arm.setDefaultCommand(arm.runGoToPosCommand(20.0)); //TODO: tune idle arm angle
+
     driveController.rightTrigger(0.9).whileTrue(intake.runEatCommand());
     driveController.leftTrigger(0.8).whileTrue(intake.runDigestCommand()); // override sensor
-    shooter.setDefaultCommand(new InstantCommand(() -> shooter.stop(), shooter));
+
     driveController
         .povUp()
         .whileTrue(
@@ -327,6 +330,7 @@ public class RobotContainer {
                 new SequentialCommandGroup(new WaitCommand(1.5), intake.runDigestCommand()),
                 new InstantCommand(() -> shooter.setShoot(), shooter)));
 
+    driveController.povDown().onTrue(arm.runGoToPosCommand(45));
     // driveController.rightTrigger(0.9).whileTrue(intake.runPoopCommand());
   }
 

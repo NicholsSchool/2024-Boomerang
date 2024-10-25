@@ -128,7 +128,7 @@ public final class Constants {
     public static final double ARM_I = 0.0;
     public static final double ARM_D = 0.0;
 
-    public static final int kThroughBoreChannel = 6;
+    public static final int kThroughBoreChannel = 7;
   }
 
   public static final class IntakeConstants {

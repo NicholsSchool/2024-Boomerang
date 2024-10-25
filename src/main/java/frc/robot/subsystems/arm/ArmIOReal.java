@@ -4,7 +4,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import frc.robot.Constants;
 import frc.robot.Constants.CAN;
 
@@ -12,7 +12,7 @@ public class ArmIOReal implements ArmIO {
 
   private TalonFX lShoulder;
   private TalonFX rShoulder;
-  private AnalogInput absoluteEncoder;
+  private DutyCycleEncoder absoluteEncoder;
 
   public ArmIOReal() {
     lShoulder = new TalonFX(CAN.kShoulderL);
@@ -25,7 +25,7 @@ public class ArmIOReal implements ArmIO {
     lShoulder.getConfigurator().apply(config);
     rShoulder.setControl(new Follower(CAN.kShoulderL, true));
 
-    absoluteEncoder = new AnalogInput(Constants.ArmConstants.kThroughBoreChannel);
+    absoluteEncoder = new DutyCycleEncoder(Constants.ArmConstants.kThroughBoreChannel);
   }
 
   @Override
@@ -64,6 +64,6 @@ public class ArmIOReal implements ArmIO {
   }
 
   private double getArmAngleDeg() {
-    return absoluteEncoder.getVoltage() / 12.0 * 360.0;
+    return absoluteEncoder.getAbsolutePosition() * 360;
   }
 }
