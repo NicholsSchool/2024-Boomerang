@@ -147,8 +147,8 @@ public class Drive extends SubsystemBase {
       wheelAbsolutes[i] = modules[i].getPosition();
     }
 
-    // pose = kalman.getEstimatedPosition();
-    // updateVision(wheelAbsolutes);
+    pose = kalman.getEstimatedPosition();
+    updateVision(wheelAbsolutes);
 
     // Log measured states
     SwerveModuleState[] measuredStates = new SwerveModuleState[4];
@@ -320,6 +320,17 @@ public class Drive extends SubsystemBase {
   /** Returns the current yaw velocity (Z rotation) in radians per second. TJG */
   public double getYawVelocity() {
     return gyroInputs.yawVelocityRadPerSec;
+  }
+  /**
+   * gets the field velocity in the universal x and y direction
+   *
+   * @return a twist containing x y and theta
+   */
+  public Twist2d getFieldOrientedVelocity() {
+    return (new Twist2d(
+        fieldVelocity.dx * Math.cos(getYaw()) + fieldVelocity.dy * Math.sin(getYaw()),
+        fieldVelocity.dx * Math.sin(getYaw()) + fieldVelocity.dy * Math.cos(getYaw()),
+        fieldVelocity.dtheta));
   }
 
   @AutoLogOutput

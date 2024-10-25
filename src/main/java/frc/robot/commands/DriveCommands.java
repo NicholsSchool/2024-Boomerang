@@ -157,9 +157,8 @@ public class DriveCommands {
           Pose2d robotPose = drive.getPose();
           double desiredAngle =
               Math.atan2(
-                      facingPose.getY() - robotPose.getY(),
-                      AllianceFlipUtil.apply(facingPose.getX()) - robotPose.getX())
-                  + Math.PI;
+                  facingPose.getY() - robotPose.getY(),
+                  AllianceFlipUtil.apply(facingPose.getX()) - robotPose.getX());
 
           // Square values
           linearMagnitude = linearMagnitude * linearMagnitude;

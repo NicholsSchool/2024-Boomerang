@@ -60,7 +60,7 @@ public class ArmIOReal implements ArmIO {
 
   @Override
   public void setVoltage(double voltage) {
-    lShoulder.setVoltage(voltage);
+    lShoulder.setVoltage(-voltage);
   }
 
   private double getArmAngleDeg() {

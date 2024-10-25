@@ -83,15 +83,15 @@ public class Arm extends SubsystemBase {
       if (reachedTargetPos) System.out.println("Arm Move to Pos Reached Goal!");
     }
 
-    io.setVoltage(-voltageCmdPid);
+    io.setVoltage(softLimit(voltageCmdPid));
   }
 
-  public double softLimit() {
-    if ((inputs.angleDegs >= 80.0 && voltageCmdPid > 0)
-        || (inputs.angleDegs < 15.0 && voltageCmdPid < 0)) {
+  @AutoLogOutput
+  public double softLimit(double voltage) {
+    if ((inputs.angleDegs >= 80.0 && voltage > 0) || (inputs.angleDegs < 30.0 && voltage < 0)) {
       return 0.0;
     }
-    return voltageCmdPid;
+    return voltage;
   }
 
   public void setTargetPos(double targetAngleDeg) {

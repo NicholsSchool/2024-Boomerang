@@ -28,6 +28,8 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.AutoCommands;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.FeedForwardCharacterization;
+import frc.robot.commands.Shoot;
+import frc.robot.commands.VisionCommands.ArmToShoot;
 import frc.robot.commands.VoltageCommandRamp;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.arm.ArmIOReal;
@@ -324,8 +326,14 @@ public class RobotContainer {
                 drive,
                 () -> -driveController.getLeftY() * Constants.DriveConstants.lowGearScaler,
                 () -> -driveController.getLeftX() * Constants.DriveConstants.lowGearScaler,
-                FieldConstants.Speaker.centerSpeakerOpening.toTranslation2d(),
+                new Translation2d(
+                    FieldConstants.Speaker.centerSpeakerOpening.toTranslation2d().getX() - 0.5,
+                    FieldConstants.Speaker.centerSpeakerOpening.toTranslation2d().getY()),
                 () -> drive.getYaw()));
+    driveController.rightStick().toggleOnTrue((new ArmToShoot(arm, drive)));
+    // .repeatedly()
+    // .until(driveController.leftTrigger())
+    // .andThen(arm.runGoToPosCommand(40.0)));
 
     intake.setDefaultCommand(new InstantCommand(() -> intake.stop(), intake));
     shooter.setDefaultCommand(new InstantCommand(() -> shooter.stop(), shooter));
@@ -346,7 +354,7 @@ public class RobotContainer {
                         new InstantCommand(() -> indexer.index(), indexer))),
                 new InstantCommand(() -> shooter.setShoot(), shooter)));
 
-    driveController.leftBumper().whileTrue(arm.runGoToPosCommand(40.0));
+    driveController.leftBumper().whileTrue(arm.runGoToPosCommand(60.0));
     driveController.leftBumper().whileFalse(arm.runGoToPosCommand(20.0));
     // driveController.rightTrigger(0.9).whileTrue(intake.runPoopCommand());
   }
@@ -357,10 +365,12 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // var path = PathPlannerAuto.getStaringPoseFromAutoFile("TestAuto");
     // var path = PathPlannerPath.fromChoreoTrajectory("New Path");
-    NamedCommands.registerCommand("RunIntake", intake.runEatCommand());
+    NamedCommands.registerCommand("RunIntake", intake.runEatCommand().withTimeout(1.0));
     NamedCommands.registerCommand("StopIntake", new InstantCommand(() -> intake.stop(), intake));
-    drive.setPose(PathPlannerAuto.getStaringPoseFromAutoFile("TestAuto"));
-    return new PathPlannerAuto("TestAuto");
+    NamedCommands.registerCommand(
+        "Shoot", new InstantCommand(() -> new Shoot(shooter, intake, indexer)).withTimeout(3));
+    drive.setPose(PathPlannerAuto.getStaringPoseFromAutoFile("New Auto"));
+    return new PathPlannerAuto("New Auto");
     // return AutoBuilder.followPath(PathPlannerPath.fromPathFile("TestPath"));
     // return autoChooser.get();
   }
