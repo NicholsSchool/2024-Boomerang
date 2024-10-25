@@ -28,6 +28,7 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.AutoCommands;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.FeedForwardCharacterization;
+import frc.robot.commands.VisionCommands.ArmToShoot;
 import frc.robot.commands.VoltageCommandRamp;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.arm.ArmIOReal;
@@ -326,6 +327,10 @@ public class RobotContainer {
                 () -> -driveController.getLeftX() * Constants.DriveConstants.lowGearScaler,
                 FieldConstants.Speaker.centerSpeakerOpening.toTranslation2d(),
                 () -> drive.getYaw()));
+    driveController.rightStick().toggleOnTrue((new ArmToShoot(arm, drive)));
+    // .repeatedly()
+    // .until(driveController.leftTrigger())
+    // .andThen(arm.runGoToPosCommand(40.0)));
 
     intake.setDefaultCommand(new InstantCommand(() -> intake.stop(), intake));
     shooter.setDefaultCommand(new InstantCommand(() -> shooter.stop(), shooter));
@@ -346,8 +351,8 @@ public class RobotContainer {
                         new InstantCommand(() -> indexer.index(), indexer))),
                 new InstantCommand(() -> shooter.setShoot(), shooter)));
 
-    driveController.leftBumper().whileTrue(arm.runGoToPosCommand(40.0));
-    driveController.leftBumper().whileFalse(arm.runGoToPosCommand(20.0));
+    driveController.leftBumper().whileTrue(arm.runGoToPosCommand(60.0));
+    driveController.leftBumper().whileFalse(arm.runGoToPosCommand(40.0));
     // driveController.rightTrigger(0.9).whileTrue(intake.runPoopCommand());
   }
 
