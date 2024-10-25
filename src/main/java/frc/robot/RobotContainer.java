@@ -250,6 +250,7 @@ public class RobotContainer {
           startPositionIndex.get() == 0
               ? AllianceFlipUtil.apply(startPosition0)
               : AllianceFlipUtil.apply(startPosition1));
+      arm.setTargetPos(40);
     }
   }
 
@@ -351,7 +352,7 @@ public class RobotContainer {
                         new InstantCommand(() -> indexer.index(), indexer))),
                 new InstantCommand(() -> shooter.setShoot(), shooter)));
 
-    driveController.leftBumper().whileTrue(arm.runGoToPosCommand(60.0));
+    driveController.leftBumper().whileTrue(arm.runGoToPosCommand(50.0));
     driveController.leftBumper().whileFalse(arm.runGoToPosCommand(40.0));
     // driveController.rightTrigger(0.9).whileTrue(intake.runPoopCommand());
   }
