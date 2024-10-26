@@ -137,7 +137,7 @@ public final class Constants {
 
     public static double kVomitRPM = -800;
     public static double kEatRPM = 600;
-    public static double kDigestRPM = 1200;
+    public static double kDigestRPM = 1500;
     public static double kPoopRPM;
     public static double kVomitDelay;
   }

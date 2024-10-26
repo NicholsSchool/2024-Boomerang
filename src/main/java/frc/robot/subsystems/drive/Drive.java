@@ -29,10 +29,9 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.commands.VisionCommands.PhotonInfo;
+// import frc.robot.commands.VisionCommands.PhotonInfo;
 import frc.robot.util.LocalADStarAK;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
@@ -64,7 +63,7 @@ public class Drive extends SubsystemBase {
         new SwerveModulePosition(), new SwerveModulePosition()
       };
 
-  PhotonInfo pi = new PhotonInfo();
+  // PhotonInfo pi = new PhotonInfo();
   SwerveDrivePoseEstimator kalman =
       new SwerveDrivePoseEstimator(kinematics, lastGyroRotation, positions, pose);
 
@@ -148,7 +147,7 @@ public class Drive extends SubsystemBase {
     }
 
     pose = kalman.getEstimatedPosition();
-    updateVision(wheelAbsolutes);
+    // updateVision(wheelAbsolutes);
 
     // Log measured states
     SwerveModuleState[] measuredStates = new SwerveModuleState[4];
@@ -338,11 +337,11 @@ public class Drive extends SubsystemBase {
     return pose.getRotation().getRadians();
   }
 
-  public void updateVision(SwerveModulePosition[] wheelAbsolutes) {
-    // setPose(pi.getTagPose(getYaw(), getPose()));
-    if (pi.getIDOne() != -1) {
-      kalman.addVisionMeasurement(pi.getTagPose(getYaw(), getPose()), Timer.getFPGATimestamp());
-    }
-    kalman.updateWithTime(Timer.getFPGATimestamp(), lastGyroRotation, wheelAbsolutes);
-  }
+  // public void updateVision(SwerveModulePosition[] wheelAbsolutes) {
+  //   // setPose(pi.getTagPose(getYaw(), getPose()));
+  //   if (pi.getIDOne() != -1) {
+  //     kalman.addVisionMeasurement(pi.getTagPose(getYaw(), getPose()), Timer.getFPGATimestamp());
+  //   }
+  //   kalman.updateWithTime(Timer.getFPGATimestamp(), lastGyroRotation, wheelAbsolutes);
+  // }
 }
