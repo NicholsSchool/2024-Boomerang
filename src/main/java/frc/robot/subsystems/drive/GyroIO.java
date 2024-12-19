@@ -23,5 +23,5 @@ public interface GyroIO {
   }
 
   default void resetIMU() {}
-  ;
+
 }
