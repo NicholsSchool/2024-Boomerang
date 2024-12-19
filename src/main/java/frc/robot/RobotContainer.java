@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -28,7 +29,6 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.AutoCommands;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.FeedForwardCharacterization;
-import frc.robot.commands.Shoot;
 import frc.robot.commands.VisionCommands.ArmToShoot;
 import frc.robot.commands.VoltageCommandRamp;
 import frc.robot.subsystems.arm.Arm;
@@ -343,7 +343,7 @@ public class RobotContainer {
     driveController.rightTrigger(0.9).whileTrue(intake.runEatCommand());
     driveController.rightBumper().whileTrue(intake.runVomitCommand());
 
-    driveController
+    operatorController
         .povUp()
         .whileTrue(
             new ParallelCommandGroup(
@@ -368,9 +368,19 @@ public class RobotContainer {
     NamedCommands.registerCommand("RunIntake", intake.runEatCommand().withTimeout(1.0));
     NamedCommands.registerCommand("StopIntake", new InstantCommand(() -> intake.stop(), intake));
     NamedCommands.registerCommand(
-        "Shoot", new InstantCommand(() -> new Shoot(shooter, intake, indexer)).withTimeout(3));
-    drive.setPose(PathPlannerAuto.getStaringPoseFromAutoFile("New Auto"));
-    return new PathPlannerAuto("New Auto");
+        "Shoot",
+        new ParallelCommandGroup(
+            new ParallelCommandGroup(
+                new SequentialCommandGroup(
+                    new WaitCommand(ShooterConstants.shootRampUpTimeSecs),
+                    new ParallelCommandGroup(
+                        intake.runDigestCommand(),
+                        new InstantCommand(() -> indexer.index(), indexer))),
+                new InstantCommand(() -> shooter.setShoot(), shooter)),
+            new RepeatCommand(new InstantCommand(() -> arm.runGoToPosCommand(60.0)))
+                .withTimeout(2)));
+    drive.setPose(PathPlannerAuto.getStaringPoseFromAutoFile("DriveForward"));
+    return new PathPlannerAuto("DriveForward");
     // return AutoBuilder.followPath(PathPlannerPath.fromPathFile("TestPath"));
     // return autoChooser.get();
   }
@@ -379,8 +389,6 @@ public class RobotContainer {
 
   private void addTestingAutos() {
     // Pathplanner Auto Testing
-    autoChooser.addOption("PathPlanner Testing Auto", new PathPlannerAuto("TestAuto"));
-
     // Set up feedforward characterization
     autoChooser.addOption(
         "Drive FF Characterization",

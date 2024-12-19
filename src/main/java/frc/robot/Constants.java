@@ -80,7 +80,7 @@ public final class Constants {
     public static final double kTRACK_WIDTH_X = 0.5969; // 23.5in
     public static final double kTRACK_WIDTH_Y = 0.5969;
 
-    public static final double lowGearScaler = 0.4;
+    public static final double lowGearScaler = 0.6;
   }
 
   // REV MAXSwerve Modules
@@ -163,7 +163,7 @@ public final class Constants {
     public static double kP = 1.5;
     public static double kD = 0.0;
 
-    public static double shootRampUpTimeSecs = 1.5;
+    public static double shootRampUpTimeSecs = 2.5;
   }
 
   public static final class AutoConstants {
