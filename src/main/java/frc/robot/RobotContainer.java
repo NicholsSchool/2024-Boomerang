@@ -1,7 +1,6 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -84,9 +83,8 @@ public class RobotContainer {
       new LoggedTunableNumber("start pos index: 0 or 1", 0.0);
   // Start Pos 0: Along line of the Amp.
   public static final LoggedTunableNumber startX0 =
-      new LoggedTunableNumber(
-          "Start X0(m)", Units.inchesToMeters(RobotConstants.robotSideLengthInches / 2));
-  public static final LoggedTunableNumber startY0 = new LoggedTunableNumber("Start Y0(m)", 7.335);
+      new LoggedTunableNumber("Start X0(m)", Units.inchesToMeters(0));
+  public static final LoggedTunableNumber startY0 = new LoggedTunableNumber("Start Y0(m)", 4.05);
   public static final LoggedTunableNumber startTheta0 =
       new LoggedTunableNumber("Start Theta0(deg)", 0.0);
   // Start Pos 1: Next to human player side of Speaker.
@@ -344,7 +342,7 @@ public class RobotContainer {
     driveController.rightBumper().whileTrue(intake.runVomitCommand());
 
     operatorController
-        .povUp()
+        .a()
         .whileTrue(
             new ParallelCommandGroup(
                 new SequentialCommandGroup(
@@ -354,35 +352,27 @@ public class RobotContainer {
                         new InstantCommand(() -> indexer.index(), indexer))),
                 new InstantCommand(() -> shooter.setShoot(), shooter)));
 
-    driveController.leftBumper().whileTrue(arm.runGoToPosCommand(60.0));
-    driveController.leftBumper().whileFalse(arm.runGoToPosCommand(20.0));
+    driveController.leftBumper().whileTrue(arm.runGoToPosCommand(55.0));
+    driveController.leftBumper().whileFalse(arm.runGoToPosCommand(30.0));
     // driveController.rightTrigger(0.9).whileTrue(intake.runPoopCommand());
   }
 
-  /**
-   * @return the command to run in autonomous
-   */
+  // /**
+  //  * @return the command to run in autonomous
+  //  */
   public Command getAutonomousCommand() {
-    // var path = PathPlannerAuto.getStaringPoseFromAutoFile("TestAuto");
-    // var path = PathPlannerPath.fromChoreoTrajectory("New Path");
-    NamedCommands.registerCommand("RunIntake", intake.runEatCommand().withTimeout(1.0));
-    NamedCommands.registerCommand("StopIntake", new InstantCommand(() -> intake.stop(), intake));
-    NamedCommands.registerCommand(
-        "Shoot",
-        new ParallelCommandGroup(
-            new ParallelCommandGroup(
-                new SequentialCommandGroup(
-                    new WaitCommand(ShooterConstants.shootRampUpTimeSecs),
-                    new ParallelCommandGroup(
-                        intake.runDigestCommand(),
-                        new InstantCommand(() -> indexer.index(), indexer))),
-                new InstantCommand(() -> shooter.setShoot(), shooter)),
-            new RepeatCommand(new InstantCommand(() -> arm.runGoToPosCommand(60.0)))
-                .withTimeout(2)));
-    drive.setPose(PathPlannerAuto.getStaringPoseFromAutoFile("DriveForward"));
-    return new PathPlannerAuto("DriveForward");
-    // return AutoBuilder.followPath(PathPlannerPath.fromPathFile("TestPath"));
-    // return autoChooser.get();
+    //   // var path = PathPlannerAuto.getStaringPoseFromAutoFile("TestAuto");
+    //   // var path = PathPlannerPath.fromChoreoTrajectory("New Path");
+    //   // NamedCommands.registerCommand("RunIntake", intake.runEatCommand().withTimeout(1.0));
+    //   // NamedCommands.registerCommand("StopIntake", new InstantCommand(() -> intake.stop(),
+    // intake));
+    //   // NamedCommands.registerCommand(
+    //   //     "Shoot", new InstantCommand(() -> new Shoot(shooter, intake,
+    // indexer)).withTimeout(3));
+    //   // drive.setPose(PathPlannerAuto.getStaringPoseFromAutoFile("New Auto"));
+    //   // return new PathPlannerAuto("New Auto");
+    //   // return AutoBuilder.followPath(PathPlannerPath.fromPathFile("TestPath"));
+    return autoChooser.get();
   }
 
   private void addAutos() {}
@@ -409,7 +399,7 @@ public class RobotContainer {
         "Spline Test",
         autoCommands.splineToPose(
             new Pose2d(
-                new Translation2d(4, 2),
+                new Translation2d(4, 3),
                 new Rotation2d(Math.PI / 2)))); // TODO: change these for new robot
 
     autoChooser.addOption( // drives 10 ft for odometry testing
