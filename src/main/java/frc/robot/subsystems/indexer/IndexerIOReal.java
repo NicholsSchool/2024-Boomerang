@@ -15,7 +15,7 @@ public class IndexerIOReal implements IndexerIO {
     var config = new TalonFXConfiguration();
     config.CurrentLimits.StatorCurrentLimit = Constants.IndexerConstants.INDEX_CURRENT_LIMIT;
     config.CurrentLimits.StatorCurrentLimitEnable = true;
-    config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive; // TODO: check
+    config.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
     config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
     indexerMotor.getConfigurator().apply(config);
   }
